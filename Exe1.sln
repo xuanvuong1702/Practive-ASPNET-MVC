@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealGrid", "src\RealGrid\RealGrid.csproj", "{785631E8-E6EF-4295-A3F7-25A25C2CD5C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{785631E8-E6EF-4295-A3F7-25A25C2CD5C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{785631E8-E6EF-4295-A3F7-25A25C2CD5C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{785631E8-E6EF-4295-A3F7-25A25C2CD5C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{785631E8-E6EF-4295-A3F7-25A25C2CD5C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9ADDB0CC-7C75-44AB-9908-434D9CDC9130}
+	EndGlobalSection
+EndGlobal

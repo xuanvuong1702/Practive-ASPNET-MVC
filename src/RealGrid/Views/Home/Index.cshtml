@@ -1,0 +1,474 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- RealGrid -->
+    <link href="~/realgrid/latest/realgrid-style.css" rel="stylesheet" />
+    <script src="~/realgrid/latest/realgrid-lic.js"></script>
+    <script src="~/realgrid/latest/realgrid.min.js"></script>
+    <script src="~/realgrid/latest/libs/jszip.min.js"></script>
+
+    @*add bootstrapt*@
+    @Styles.Render("~/Content/css")
+
+    <title>@ViewBag.Title</title>
+
+    @*custom style*@
+    <style>
+
+        .grid-header {
+        }
+
+        .grid-input {
+            width: 100%;
+        }
+
+        .full-width-input {
+            width: 100%;
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+
+        .realgrid-container {
+            background-color: #e3e3e3;
+            border-radius: 10px;
+            border-width: 2px;
+        }
+
+        .realgrid-label {
+            font-weight: bold;
+        }
+    </style>
+
+
+    <style>
+
+        /* realgrid custom styles */
+
+
+
+        #realgrid {
+            width: 100%;
+            height: 80vh;
+        }
+
+        .rg-header {
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            /* Change header color */
+            background: #1ed360;
+        }
+
+        .rg-header-focus {
+            /* Change the color of the focus header */
+            background: #e7e442;
+            color: white;
+        }
+
+        .green1-color {
+            background: #b3d6a3;
+        }
+
+        .green2-color {
+            background: #d4fac3;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container mt-4 realgrid-container">
+        <div class="row mb-2 mt-2 pt-2">
+            <div class="col-4">
+                <label class="realgrid-label" for="input1">스탬</label>
+            </div>
+            <div class="col-8">
+                <input type="text" id="input1" class="form-control highlight-input" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                <label class="realgrid-label" for="input2">입고 공장/동</label>
+            </div>
+            <div class="col-8">
+                <input type="text" id="input2" class="form-control" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                <label class="realgrid-label" for="input3">입고 창고</label>
+            </div>
+            <div class="col-8">
+                <input type="text" id="input3" class="form-control" />
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                <label class="realgrid-label" for="input4">확정일자</label>
+            </div>
+            <div class="col-8">
+                <input type="text" id="input4" class="form-control" />
+            </div>
+        </div>
+        <hr />
+        <div class="row mb-2">
+            <div class="col-6">
+                <button class="btn btn-secondary btn-block">확정취소</button>
+            </div>
+            <div class="col-6 d-flex justify-content-md-end">
+                <button class="btn btn-secondary">입고확정</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="realgrid"></div>
+            </div>
+        </div>
+    </div>
+
+    @*add jquery and bootstrap*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+    <script>
+        var fields = [
+            {
+                fieldName: "KorName",
+                dataType: "text"
+            },
+            {
+                fieldName: "Gender",
+                dataType: "text"
+            },
+            {
+                fieldName: "Age",
+                dataType: "number"
+            },
+            {
+                fieldName: "Phone",
+                dataType: "text"
+            },
+            {
+                fieldName: "ProductId",
+                dataType: "text"
+            },
+            {
+                fieldName: "KorCountry",
+                dataType: "text"
+            },
+            {
+                fieldName: "OrderDate",
+                dataType: "datetime",
+                datetimeFormat: "yyyy-MM-dd",
+                amText: "AM",
+                pmText: "PM"
+            },
+            {
+                fieldName: "CardNumber",
+                dataType: "text"
+            },
+            {
+                fieldName: "Monetary",
+                dataType: "text"
+            },
+            {
+                fieldName: "StartDate",
+                dataType: "datetime",
+                datetimeFormat: "yyyy-MM-dd",
+                amText: "AM",
+                pmText: "PM"
+            },
+            {
+                fieldName: "EndDate",
+                dataType: "datetime",
+                datetimeFormat: "yyyy-MM-dd",
+                amText: "AM",
+                pmText: "PM"
+            },
+            {
+                fieldName: "ToMonth",
+                dataType: "number"
+            },
+            {
+                fieldName: "Month",
+                dataType: "number"
+            },
+            {
+                fieldName: "Year",
+                dataType: "number"
+            },
+            {
+                fieldName: "InterestRate",
+                dataType: "number"
+            },
+            {
+                fieldName: "SaveCost",
+                dataType: "number"
+            },
+            {
+                fieldName: "SaveMaturity",
+                dataType: "number"
+            },
+            {
+                fieldName: "CurrentSave",
+                dataType: "number"
+            }
+        ];
+
+        var columns = [
+            {
+                name: "KorName",
+                fieldName: "KorName",
+                width: "60",
+                header: {
+                    text: "Name"
+                },
+                "styles": {
+                    "textAlignment": "center"
+                },
+            },
+            {
+                name: "Gender",
+                fieldName: "Gender",
+                width: "40",
+                header: {
+                    text: "Gender"
+                }
+            },
+            {
+                name: "Age",
+                fieldName: "Age",
+                width: "40",
+                header: {
+                    text: "Age"
+                },
+                styleName: "right-column"
+            },
+            {
+                name: "Phone",
+                fieldName: "Phone",
+                width: "100",
+                header: {
+                    text: "Phone"
+                }
+            },
+            {
+                name: "ProductId",
+                fieldName: "ProductId",
+                width: "120",
+                header: {
+                    text: "Product Code"
+                }
+            },
+            {
+                name: "KorCountry",
+                fieldName: "KorCountry",
+                width: "100",
+                header: {
+                    text: "Country"
+                }
+            },
+            {
+                name: "OrderDate",
+                fieldName: "OrderDate",
+                width: "100",
+                header: {
+                    text: "Order Date"
+                }
+            },
+            {
+                name: "CardNumber",
+                fieldName: "CardNumber",
+                width: "140",
+                header: {
+                    text: "Card No."
+                }
+            },
+            {
+                name: "Monetary",
+                fieldName: "Monetary",
+                width: "40",
+                header: {
+                    text: "Monetary"
+                }
+            },
+            {
+                name: "StartDate",
+                fieldName: "StartDate",
+                width: "100",
+                header: {
+                    text: "Start Date"
+                }
+            },
+            {
+                name: "EndDate",
+                fieldName: "EndDate",
+                width: "100",
+                header: {
+                    text: "End Date"
+                }
+            },
+            {
+                name: "ToMonth",
+                fieldName: "ToMonth",
+                width: "50",
+                header: {
+                    text: "Pay Cnt."
+                },
+                styleName: "right-column"
+            },
+            {
+                name: "Month",
+                fieldName: "Month",
+                width: "50",
+                header: {
+                    text: "Residuum"
+                },
+                styleName: "right-column"
+            },
+            {
+                name: "InterestRate",
+                fieldName: "InterestRate",
+                width: "50",
+                numberFormat: "0.00",
+                header: {
+                    text: "Interest Rate"
+                },
+                styleName: "right-column"
+            },
+            {
+                name: "SaveCost",
+                fieldName: "SaveCost",
+                width: "80",
+                numberFormat: "#,##0",
+                header: {
+                    text: "Payment"
+                },
+                styleName: "right-column"
+            },
+            {
+                name: "SaveMaturity",
+                fieldName: "SaveMaturity",
+                width: "80",
+                numberFormat: "#,##0",
+                header: {
+                    text: "Save Maturity"
+                },
+                styleName: "right-column"
+            },
+            {
+                name: "CurrentSave",
+                fieldName: "CurrentSave",
+                width: "80",
+                numberFormat: "#,##0",
+                header: {
+                    text: "Currency Save"
+                },
+                styleName: "right-column"
+            }
+        ];
+
+        var httpRequest;
+
+        function setProvider(filename) {
+            httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = loadData;
+            httpRequest.open("GET", "/data/en/" + filename);
+            httpRequest.send();
+        }
+
+        function loadData() {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    var data = JSON.parse(httpRequest.responseText);
+                    dataProvider.setRows(data);
+                    gridView.refresh();
+                }
+            }
+        }
+
+        var dataProvider, gridContainer, grid;
+
+        function createGrid(container) {
+            RealGrid.setLocale('en');
+            dataProvider = new RealGrid.LocalDataProvider();
+            dataProvider.setFields(fields);
+
+            gridView = new RealGrid.GridView(container);
+            gridView.displayOptions.emptyMessage = "There is no data to display.";
+            gridView.header.height = 40;
+            gridView.displayOptions.rowHeight = 36;
+            gridView.footer.height = 40;
+            gridView.stateBar.width = 16;
+
+            gridView.setDataSource(dataProvider);
+            gridView.setColumns(columns);
+            setProvider("simple_data.json");
+
+            gridView.editOptions.insertable = true;
+            gridView.editOptions.appendable = true;
+
+            gridView.setRowStyleCallback(function (grid, item, fixed) {
+                var ret = {};
+                var gender = grid.getValue(item.index, "Gender");
+
+                if (item.index % 2 == 0) {
+                    return 'green2-color'
+                }
+                else {
+                    return 'green1-color';
+                }
+            })
+
+
+        }
+
+        function start() {
+            createGrid("realgrid");
+        }
+
+        // $.document.ready(start);
+        window.onload = start;
+        // domloaded를 대신 써도 됩니다.
+
+        window.onunload = function () {
+            dataProvider.clearRows();
+
+            gridView.destroy();
+            dataProvider.destroy();
+
+            gridView = null;
+            dataProvider = null;
+        }
+
+        function btnSetHeaderHeightUp() {
+            var headerHeight = gridView.header.height;
+            gridView.header.height = headerHeight + 10;
+        }
+        function btnSetHeaderHeightDown() {
+            var headerHeight = gridView.header.height;
+            gridView.header.height = headerHeight - 10;
+
+        }
+
+    </script>
+
+
+</body>
+
+
+
+
+</html>
